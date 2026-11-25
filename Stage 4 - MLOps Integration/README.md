@@ -95,7 +95,7 @@ First-time setup of the tool environment: `python -m venv venv` then
 
 ```powershell
 # terminal 1 - FastAPI
-cd fastapi-service; .\venv\Scripts\python.exe -m uvicorn app-2:app --port 8000
+cd fastapi-service; .\venv\Scripts\python.exe -m uvicorn app:app --port 8000
 # terminal 2 - Django
 cd django-scoutiq; .\venv\Scripts\python.exe manage.py runserver 8001
 ```

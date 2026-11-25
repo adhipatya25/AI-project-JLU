@@ -25,7 +25,7 @@ const sampleStatus = document.getElementById("sample-status");
 const predictButton = document.getElementById("predict-button");
 const predictButtonLabel = document.getElementById("predict-button-label");
 
-// --- PDF / CSV upload elements (run with app-2.py) ---
+// --- PDF / CSV upload elements (FastAPI app.py endpoints) ---
 const reportFile = document.getElementById("report-file");
 const extractButton = document.getElementById("extract-button");
 const predictPdfButton = document.getElementById("predict-pdf-button");

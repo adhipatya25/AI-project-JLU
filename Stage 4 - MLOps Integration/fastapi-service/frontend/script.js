@@ -17,7 +17,7 @@ const sampleStatus = document.getElementById("sample-status");
 const predictButton = document.getElementById("predict-button");
 const predictButtonLabel = document.getElementById("predict-button-label");
 
-// --- PDF / CSV upload elements (run with app-2.py) ---
+// --- PDF / CSV upload elements (FastAPI app.py endpoints) ---
 const reportFile = document.getElementById("report-file");
 const extractButton = document.getElementById("extract-button");
 const predictPdfButton = document.getElementById("predict-pdf-button");
@@ -377,7 +377,7 @@ async function handleExtract() {
   } catch (err) {
     setUploadStatus(
       err.message.includes("Failed to fetch")
-        ? "Cannot connect to the API. Start it with: uvicorn app-2:app --reload, then try again."
+        ? "Cannot connect to the API. Start it with: uvicorn app:app --reload, then try again."
         : err.message,
       true
     );
@@ -419,7 +419,7 @@ async function handlePredictPdf() {
     resultBadge.textContent = "Prediction failed";
     resultRating.textContent = "Unable to generate prediction";
     resultDescription.textContent = err.message.includes("Failed to fetch")
-      ? "Cannot connect to the FastAPI server. Start it with: uvicorn app-2:app --reload, then try again."
+      ? "Cannot connect to the FastAPI server. Start it with: uvicorn app:app --reload, then try again."
       : err.message;
     setUploadStatus(err.message, true);
   } finally {
@@ -478,7 +478,7 @@ async function handlePredictCsv() {
   } catch (err) {
     setCsvStatus(
       err.message.includes("Failed to fetch")
-        ? "Cannot connect to the API. Start it with: uvicorn app-2:app --reload, then try again."
+        ? "Cannot connect to the API. Start it with: uvicorn app:app --reload, then try again."
         : err.message,
       true
     );
@@ -575,7 +575,7 @@ form.addEventListener("submit", async (event) => {
     resultBadge.textContent = "Prediction failed";
     resultRating.textContent = "Unable to generate prediction";
     resultDescription.textContent = error.message.includes("Failed to fetch")
-      ? "Cannot connect to the FastAPI server. Start it with: uvicorn app-2:app --reload, then try again."
+      ? "Cannot connect to the FastAPI server. Start it with: uvicorn app:app --reload, then try again."
       : error.message;
   } finally {
     predictButton.disabled = false;

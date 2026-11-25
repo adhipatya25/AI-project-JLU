@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-# Same vocabularies as the FastAPI track (train_model.py / app-2.py),
+# Same vocabularies as the FastAPI track (fastapi-service/app.py),
 # so predictions stay comparable across both backends.
 POSITION_CHOICES = [
     ("Attack", "Attack"),

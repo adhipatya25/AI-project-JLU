@@ -8,7 +8,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY app.py app-2.py player_template.csv model.pkl ./
+COPY app.py player_template.csv model.pkl ./
 
 # docker-compose mounts the project's fastapi-service folder at /models and sets
 # MODEL_PATH=/models/model.pkl, so a model retrained by DVC/Airflow is picked up
@@ -16,4 +16,4 @@ COPY app.py app-2.py player_template.csv model.pkl ./
 EXPOSE 8000
 HEALTHCHECK --interval=15s --timeout=5s --retries=5 \
   CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"
-CMD ["uvicorn", "app-2:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
