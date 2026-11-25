@@ -17,3 +17,6 @@
 # Stage 3: random forest model is 66 MB (over GitHub's 50 MB warning) and is
 # reproducible from stage-3-code.ipynb; the final model (model.pkl) is committed.
 /Stage 3/random_forest_model.pkl
+
+# Chat transcripts stay local (removed from GitHub on purpose)
+**/Our_Chat_*.md
