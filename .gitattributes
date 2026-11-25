@@ -1,0 +1,6 @@
+# Stages 1-2 and PCA were uploaded with Unix line endings while the local copies
+# use Windows ones; treat text files there as equal regardless of line ending.
+# (Stage 4 is left alone on purpose: DVC hashes its files byte-for-byte.)
+Stage[[:space:]]1/** text=auto
+Stage[[:space:]]2/** text=auto
+PCA[[:space:]]and[[:space:]]Scaling/** text=auto

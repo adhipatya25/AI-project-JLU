@@ -2,6 +2,7 @@
 # Only the project stages are tracked; practice/demo folders stay local.
 /*
 !/.gitignore
+!/.gitattributes
 !/Stage 1/
 !/Stage 2/
 !/PCA and Scaling/
