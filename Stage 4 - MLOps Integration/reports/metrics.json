@@ -1,0 +1,10 @@
+{
+  "accuracy": 0.9359,
+  "f1_weighted": 0.9359,
+  "f1_macro": 0.9338,
+  "train_rows": 40119,
+  "test_rows": 10030,
+  "recall_Average": 0.9434,
+  "recall_Outperforming": 0.9144,
+  "recall_Underperforming": 0.9343
+}

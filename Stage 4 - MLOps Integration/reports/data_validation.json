@@ -1,0 +1,24 @@
+{
+  "rows": 50149,
+  "columns": 44,
+  "duplicate_rows": 1,
+  "class_counts": {
+    "Average": 25872,
+    "Underperforming": 16508,
+    "Outperforming": 7769
+  },
+  "null_share": {
+    "height_in_cm": 0.087,
+    "matches_played": 0.4112,
+    "yellow_cards": 0.4112,
+    "red_cards": 0.4112,
+    "position": 0.0117,
+    "sub_position": 0.0117,
+    "foot": 0.1175,
+    "competition_code": 0.0756,
+    "confederation": 0.0756
+  },
+  "errors": [],
+  "warnings": [],
+  "passed": true
+}

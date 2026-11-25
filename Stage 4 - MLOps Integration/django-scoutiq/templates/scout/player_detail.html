@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}{{ player.name }}{% endblock %}
+{% block crumb %}PLAYER RECORD{% endblock %}
+{% block content %}
+<section class="page-head" data-reveal>
+  <div>
+    <p class="eyebrow"><span class="eyebrow-line"></span> PLAYER RECORD</p>
+    <h2>{{ player.name }}</h2>
+    <p class="muted">{{ player.position }} · {{ player.sub_position }} · {{ player.get_confederation_display }} · {{ player.competition_code }}</p>
+  </div>
+  <a class="button-ghost" href="{% url 'scout:history' %}">← Back to history</a>
+</section>
+
+<section class="workspace-grid">
+  <div class="panel prediction-panel" data-reveal>
+    <div class="panel-heading">
+      <div><p class="panel-kicker">STORED INPUTS</p><h2>Player attributes</h2><p class="panel-subtitle">The 14 values sent to the model for this player.</p></div>
+      <span class="step-pill"><b>14</b> FIELDS</span>
+    </div>
+    <div class="kv-grid">
+      <div><span>Height</span><strong>{{ player.height_in_cm|floatformat:"0" }} cm</strong></div>
+      <div><span>International caps</span><strong>{{ player.international_caps|floatformat:"0" }}</strong></div>
+      <div><span>Market value</span><strong>€{{ player.market_value_in_eur|floatformat:"0" }}</strong></div>
+      <div><span>Matches played</span><strong>{{ player.matches_played|floatformat:"0" }}</strong></div>
+      <div><span>Total minutes</span><strong>{{ player.total_minutes|floatformat:"0" }}</strong></div>
+      <div><span>Goals</span><strong>{{ player.total_goals|floatformat:"0" }}</strong></div>
+      <div><span>Assists</span><strong>{{ player.total_assists|floatformat:"0" }}</strong></div>
+      <div><span>Yellow / Red cards</span><strong>{{ player.yellow_cards|floatformat:"0" }} / {{ player.red_cards|floatformat:"0" }}</strong></div>
+      <div><span>Preferred foot</span><strong>{{ player.get_foot_display }}</strong></div>
+      <div><span>Competition</span><strong>{{ player.competition_code }}</strong></div>
+    </div>
+  </div>
+
+  <aside class="insight-column">
+    {% with latest=player.predictions.first %}
+    <section class="panel result-card {% if latest %}rating-{{ latest.predicted_rating|lower }}{% endif %}">
+      <div class="panel-heading compact"><div><p class="panel-kicker">MODEL OUTPUT</p><h2>Latest prediction</h2></div><span class="result-badge">{% if latest %}Model prediction{% else %}None yet{% endif %}</span></div>
+      <div class="result-visual"><div class="result-orbit"><span>AI</span></div><div><p class="result-overline">FUTURE POTENTIAL RATING</p><p class="result-rating">{% if latest %}{{ latest.predicted_rating }}{% else %}Not evaluated{% endif %}</p></div></div>
+      <div class="prediction-list">
+        {% for pred in player.predictions.all %}
+        <div class="prediction-item"><span class="csv-pill csv-{{ pred.predicted_rating }}">{{ pred.predicted_rating }}</span>
+          <small>Prediction #{{ pred.id }} · {{ pred.created_at|date:"d M Y, H:i" }}{% if pred.predicted_by %} · by {{ pred.predicted_by.username }}{% endif %}</small></div>
+        {% empty %}
+        <p class="muted">No predictions stored yet.</p>
+        {% endfor %}
+      </div>
+      <div class="disclaimer"><b>Note</b><span>This is a model-generated estimate, not a guarantee of future performance.</span></div>
+    </section>
+    {% endwith %}
+  </aside>
+</section>
+{% endblock %}

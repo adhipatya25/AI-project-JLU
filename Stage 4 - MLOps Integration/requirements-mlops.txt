@@ -1,0 +1,15 @@
+# MLOps tool-chain for the Stage 4 pipeline (src/*.py, dvc.yaml, Airflow tasks).
+# Versions match the ones already proven in the individual demo folders.
+
+# --- ML (must match the FastAPI service so model.pkl unpickles there) ---
+scikit-learn==1.9.1
+pandas==3.0.6
+numpy==2.5.3
+joblib==1.6.0
+PyYAML==6.0.3
+
+# --- MLOps tools ---
+dvc==3.67.1
+mlflow==3.16.1
+evidently==0.7.23
+requests==2.34.2

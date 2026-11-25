@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Log in{% endblock %}
+{% block crumb %}SIGN IN{% endblock %}
+{% block content %}
+<section class="page-head" data-reveal>
+  <div>
+    <p class="eyebrow"><span class="eyebrow-line"></span> FOOTBALL INTELLIGENCE PLATFORM</p>
+    <h2>Welcome to Scout<span>IQ</span></h2>
+    <p class="muted">Log in to predict player potential and keep a history of every verdict.</p>
+  </div>
+</section>
+<section class="panel auth-card" data-reveal>
+  <p class="panel-kicker">SCOUTIQ ACCESS</p>
+  <h2>Log in</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="form-actions"><button type="submit" class="button-primary">Log in <b>→</b></button></div>
+  </form>
+  <p class="muted">No account? <a href="{% url 'scout:signup' %}">Sign up</a></p>
+</section>
+{% endblock %}

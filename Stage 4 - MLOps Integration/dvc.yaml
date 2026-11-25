@@ -1,0 +1,55 @@
+# DVC pipeline: validate -> train -> monitor.   Run with:  dvc repro
+# Each stage re-runs only when its code, data or params change.
+stages:
+  validate_data:
+    cmd: python src/validate_data.py
+    deps:
+      - src/validate_data.py
+      - src/common.py
+      - data/football_players.csv
+    params:
+      - data
+    metrics:
+      - reports/data_validation.json:
+          cache: false
+
+  train:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+      - src/common.py
+      - data/football_players.csv
+      - reports/data_validation.json
+    params:
+      - data
+      - model
+      - mlflow
+    outs:
+      - fastapi-service/model.pkl
+    metrics:
+      - reports/metrics.json:
+          cache: false
+    plots:
+      - reports/confusion_matrix.csv:
+          cache: false
+
+  monitor:
+    cmd: python src/monitor.py
+    deps:
+      - src/monitor.py
+      - src/common.py
+      - data/football_players.csv
+      - fastapi-service/model.pkl
+    params:
+      - data
+      - monitoring
+    outs:
+      - reports/data_quality.html:
+          cache: false
+      - reports/data_drift.html:
+          cache: false
+      - reports/model_performance.html:
+          cache: false
+    metrics:
+      - reports/monitoring.json:
+          cache: false

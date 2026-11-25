@@ -1,0 +1,12 @@
+{
+  "reference_rows": 40119,
+  "current_rows": 10030,
+  "drifted_columns": 0,
+  "drift_share": 0.0,
+  "drift_alert": false,
+  "production": {
+    "rows": 0,
+    "report": null
+  },
+  "target": "Player_Future_Potential_Rating"
+}

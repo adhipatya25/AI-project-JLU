@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Prediction history{% endblock %}
+{% block crumb %}PREDICTION HISTORY{% endblock %}
+{% block content %}
+<section class="page-head" data-reveal>
+  <div>
+    <p class="eyebrow"><span class="eyebrow-line"></span> STORED VERDICTS</p>
+    <h2>Prediction <span>history</span></h2>
+    <p class="muted">Every prediction made in ScoutIQ is stored here. Rows load live from the REST API (<b>/api/predictions/</b>).</p>
+  </div>
+  <a class="button-ghost" href="{% url 'scout:predict' %}#predictor">New prediction →</a>
+</section>
+
+<section class="panel filter-bar" data-reveal>
+  <div class="field"><label for="f-position">Position filter</label>
+    <select id="f-position"><option value="">All positions</option>{% for p in positions %}<option value="{{ p }}">{{ p }}</option>{% endfor %}</select>
+  </div>
+  <div class="field"><label for="f-rating">Rating filter</label>
+    <select id="f-rating"><option value="">All ratings</option><option>Outperforming</option><option>Average</option><option>Underperforming</option></select>
+  </div>
+  <div class="field"><label for="f-search">Search player</label><input id="f-search" type="search" placeholder="Type a name…" /></div>
+</section>
+
+<p class="sample-status history-status" id="api-status" role="status" aria-live="polite"></p>
+<section class="panel table-wrap">
+  <table class="csv-table" id="history-table">
+    <thead><tr><th>PLAYER</th><th>POS</th><th>RATING</th><th>BY</th><th>DATE</th><th></th></tr></thead>
+    <tbody id="history-body"><tr><td colspan="6" class="muted">Loading…</td></tr></tbody>
+  </table>
+</section>
+{% endblock %}

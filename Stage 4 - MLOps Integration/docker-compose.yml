@@ -1,0 +1,66 @@
+# Stage 4 - whole system in Docker.
+#   docker compose up -d --build                      -> MLflow :5000, FastAPI :8000, Django :8001
+#   docker compose --profile pipeline up -d --build   -> + Airflow :8080 (runs the DVC/MLflow/Evidently DAG)
+name: football-mlops
+
+services:
+  mlflow:
+    build:
+      context: .
+      dockerfile: docker/mlflow.Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlflow:/mlflow            # runs + registry (mlflow.db) and model artifacts
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  fastapi:
+    build: ./fastapi-service
+    ports:
+      - "8000:8000"
+    environment:
+      MODEL_PATH: /models/model.pkl
+    volumes:
+      # the folder (not the single file) so a model.pkl rewritten by DVC/Airflow is seen by /reload-model
+      - ./fastapi-service:/models:ro
+
+  django:
+    build: ./django-scoutiq
+    ports:
+      - "8001:8001"
+    environment:
+      FASTAPI_URL: http://fastapi:8000
+      DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1
+      DJANGO_DB_PATH: /app/shared/db.sqlite3
+    volumes:
+      # same SQLite file as the native app; Evidently reads it for production drift
+      - ./django-scoutiq:/app/shared
+    depends_on:
+      fastapi:
+        condition: service_healthy
+
+  airflow:
+    profiles: ["pipeline"]
+    build:
+      context: .
+      dockerfile: airflow/Dockerfile
+    command: standalone
+    ports:
+      - "8080:8080"
+    environment:
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "False"
+      AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_ALL_ADMINS: "True"   # local demo: no login screen
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+      FASTAPI_URL: http://fastapi:8000
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - .:/opt/project              # the DVC repo the DAG works in
+    depends_on:
+      mlflow:
+        condition: service_healthy

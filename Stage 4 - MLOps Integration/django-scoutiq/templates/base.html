@@ -1,0 +1,62 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#004D98" />
+  <meta name="description" content="AI-powered football player future potential analysis and prediction." />
+  <meta name="csrf-token" content="{{ csrf_token }}" />
+  <title>ScoutIQ | {% block title %}Football Player Potential{% endblock %}</title>
+  <script>/* apply the saved theme before paint (same key as the FastAPI frontend) */
+    (function () { var t = localStorage.getItem("scoutiq-theme"); if (t === "dark" || t === "light") document.documentElement.setAttribute("data-theme", t); })();</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'scout.css' %}?v=4" />
+  <script src="{% static 'scout.js' %}?v=4" defer></script>
+  {% block scripts %}{% endblock %}
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <a class="brand" href="{% url 'scout:predict' %}#overview" aria-label="ScoutIQ home">
+        <span class="brand-mark">S<span>Q</span></span>
+        <span class="brand-name">SCOUT<span>IQ</span><small>PLAYER INTELLIGENCE</small></span>
+      </a>
+      <div class="side-label">WORKSPACE</div>
+      {% with page=request.resolver_match.url_name %}
+      <nav class="side-nav" aria-label="Main navigation">
+        <a class="nav-link {% if page == 'predict' %}active{% endif %}" href="{% if page == 'predict' %}#overview{% else %}{% url 'scout:predict' %}#overview{% endif %}"><span class="nav-icon">▦</span> Overview</a>
+        <a class="nav-link" href="{% if page != 'predict' %}{% url 'scout:predict' %}{% endif %}#predictor"><span class="nav-icon">◎</span> Player prediction</a>
+        <a class="nav-link" href="{% if page != 'predict' %}{% url 'scout:predict' %}{% endif %}#report-upload"><span class="nav-icon">⬆</span> Report upload</a>
+        <a class="nav-link {% if page == 'history' or page == 'player-detail' %}active{% endif %}" href="{% url 'scout:history' %}"><span class="nav-icon">▤</span> Prediction history</a>
+      </nav>
+      {% endwith %}
+      <div class="sidebar-bottom">
+        <div class="model-status"><span class="status-dot {% if model_service is not None and not model_service %}is-offline{% endif %}"></span><div><strong>Prediction model</strong><small>Gradient Boosting{% if model_service is not None %} · {% if model_service %}FastAPI online{% else %}FastAPI offline{% endif %}{% endif %}</small></div></div>
+        <div class="sidebar-note">A machine learning demonstration for football scouting and player evaluation.</div>
+        {% if user.is_authenticated %}
+        <div class="sidebar-user">Signed in as <b>{{ user.username }}</b> ·
+          <form method="post" action="{% url 'logout' %}" class="inline-form">{% csrf_token %}<button type="submit" class="link-btn">Log out</button></form>
+        </div>
+        {% endif %}
+      </div>
+    </aside>
+
+    <main class="main-content" id="overview">
+      <header class="topbar">
+        <div class="breadcrumb">WORKSPACE <span>/</span> {% block crumb %}PLAYER INTELLIGENCE{% endblock %}</div>
+        <div class="topbar-right">
+          <span class="live-indicator"><i></i> LOCAL DEMO</span>
+          <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle dark theme" aria-pressed="false"><span id="theme-icon">◐</span> <span id="theme-label">Dark</span></button>
+          <div class="avatar">AI</div>
+        </div>
+      </header>
+
+      {% block content %}{% endblock %}
+
+      <footer class="page-footer"><span>SCOUTIQ <b>·</b> FOOTBALL PLAYER POTENTIAL PREDICTION</span><span>ACADEMIC MACHINE LEARNING PROJECT</span></footer>
+    </main>
+  </div>
+</body>
+</html>

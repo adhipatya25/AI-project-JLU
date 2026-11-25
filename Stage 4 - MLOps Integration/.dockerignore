@@ -1,0 +1,13 @@
+# Build context for airflow/Dockerfile and docker/mlflow.Dockerfile is the project root;
+# they only need requirements-mlops.txt, so keep everything heavy out.
+**/venv
+**/__pycache__
+.git
+.dvc/cache
+data/
+mlflow/
+reports/
+airflow/logs
+django-scoutiq/
+fastapi-service/
+*.md

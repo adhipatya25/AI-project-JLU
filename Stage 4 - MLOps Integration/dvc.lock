@@ -1,0 +1,130 @@
+schema: '2.0'
+stages:
+  validate_data:
+    cmd: python src/validate_data.py
+    deps:
+    - path: data/football_players.csv
+      hash: md5
+      md5: 5ae876a228d2fbc337b53f841caf987b
+      size: 15244996
+    - path: src/common.py
+      hash: md5
+      md5: 0d3a4e917212d7d656328cb45fd28f96
+      size: 1523
+    - path: src/validate_data.py
+      hash: md5
+      md5: 91b089f009fa85d15265a8272eeecb1d
+      size: 2387
+    params:
+      params.yaml:
+        data:
+          path: data/football_players.csv
+          target: Player_Future_Potential_Rating
+          test_size: 0.2
+          random_state: 42
+    outs:
+    - path: reports/data_validation.json
+      hash: md5
+      md5: 046bf118f16ab44dc7c8b737be6cdac8
+      size: 502
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/football_players.csv
+      hash: md5
+      md5: 5ae876a228d2fbc337b53f841caf987b
+      size: 15244996
+      isexec: true
+    - path: reports/data_validation.json
+      hash: md5
+      md5: 046bf118f16ab44dc7c8b737be6cdac8
+      size: 502
+      isexec: true
+    - path: src/common.py
+      hash: md5
+      md5: 0d3a4e917212d7d656328cb45fd28f96
+      size: 1523
+      isexec: true
+    - path: src/train.py
+      hash: md5
+      md5: 2164f7480a4b29484e8c9c66d021ddef
+      size: 6314
+      isexec: true
+    params:
+      params.yaml:
+        data:
+          path: data/football_players.csv
+          target: Player_Future_Potential_Rating
+          test_size: 0.2
+          random_state: 42
+        mlflow:
+          experiment: football-player-potential
+          registered_model: football-potential-gb
+        model:
+          name: GradientBoostingClassifier
+          n_estimators: 100
+          learning_rate: 0.1
+          max_depth: 3
+          min_samples_split: 2
+          min_samples_leaf: 2
+          subsample: 0.8
+          random_state: 42
+    outs:
+    - path: fastapi-service/model.pkl
+      hash: md5
+      md5: 408277d9a29e19e3c86b298a3a832257
+      size: 408029
+    - path: reports/confusion_matrix.csv
+      hash: md5
+      md5: a8578b079eec5689a207416d015bbce5
+      size: 141
+    - path: reports/metrics.json
+      hash: md5
+      md5: fc7b7603d92adfc7bc2675a967e776f0
+      size: 214
+  monitor:
+    cmd: python src/monitor.py
+    deps:
+    - path: data/football_players.csv
+      hash: md5
+      md5: 5ae876a228d2fbc337b53f841caf987b
+      size: 15244996
+    - path: fastapi-service/model.pkl
+      hash: md5
+      md5: 408277d9a29e19e3c86b298a3a832257
+      size: 408029
+    - path: src/common.py
+      hash: md5
+      md5: 0d3a4e917212d7d656328cb45fd28f96
+      size: 1523
+    - path: src/monitor.py
+      hash: md5
+      md5: 693dd31774119d0a1ea2186dbc8d607c
+      size: 4366
+    params:
+      params.yaml:
+        data:
+          path: data/football_players.csv
+          target: Player_Future_Potential_Rating
+          test_size: 0.2
+          random_state: 42
+        monitoring:
+          drift_share_threshold: 0.3
+          min_production_rows: 200
+    outs:
+    - path: reports/data_drift.html
+      hash: md5
+      md5: ca8ca820847df89f956b9590630ee4b7
+      size: 4391318
+    - path: reports/data_quality.html
+      hash: md5
+      md5: 2d9c95b677be2a387d2bc0c8301360ba
+      size: 3801039
+    - path: reports/model_performance.html
+      hash: md5
+      md5: 3d05e04eafe19484212315d932f1026c
+      size: 3674894
+    - path: reports/monitoring.json
+      hash: md5
+      md5: 205af5ce5a4414d990471528d6ff50f4
+      size: 238

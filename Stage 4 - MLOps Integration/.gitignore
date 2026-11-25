@@ -1,0 +1,18 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Local data stores (not source code)
+django-scoutiq/db.sqlite3
+mlflow/
+airflow/logs/
+airflow/simple_auth_manager_passwords.json*
+
+# Run-specific / regenerated output (Evidently HTML is ~4 MB each; dvc repro recreates it)
+reports/mlflow_run.json
+reports/*.html
+
+# Secrets
+.env
+.env.*

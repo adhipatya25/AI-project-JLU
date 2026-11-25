@@ -1,0 +1,18 @@
+# This folder is the local copy of github.com/adhipatya25/AI-project-JLU.
+# Only the project stages are tracked; practice/demo folders stay local.
+/*
+!/.gitignore
+!/Stage 1/
+!/Stage 2/
+!/PCA and Scaling/
+!/Stage 3/
+!/Stage 4 - MLOps Integration/
+
+# Never commit environments or caches
+**/venv/
+**/__pycache__/
+*.pyc
+
+# Stage 3: random forest model is 66 MB (over GitHub's 50 MB warning) and is
+# reproducible from stage-3-code.ipynb; the final model (model.pkl) is committed.
+/Stage 3/random_forest_model.pkl

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#004D98" />
+  <meta name="description" content="AI-powered football player future potential analysis and prediction." />
+  <title>ScoutIQ | Football Player Potential</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=4" />
+  <script src="script.js?v=4" defer></script>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <a class="brand" href="#overview" aria-label="ScoutIQ home">
+        <span class="brand-mark">S<span>Q</span></span>
+        <span class="brand-name">SCOUT<span>IQ</span><small>PLAYER INTELLIGENCE</small></span>
+      </a>
+      <div class="side-label">WORKSPACE</div>
+      <nav class="side-nav" aria-label="Main navigation">
+        <a class="nav-link active" href="#overview"><span class="nav-icon">▦</span> Overview</a>
+        <a class="nav-link" href="#predictor"><span class="nav-icon">◎</span> Player prediction</a>
+        <a class="nav-link" href="#report-upload"><span class="nav-icon">⬆</span> Report upload</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="model-status"><span class="status-dot"></span><div><strong>Prediction model</strong><small>Gradient Boosting</small></div></div>
+        <div class="sidebar-note">A machine learning demonstration for football scouting and player evaluation.</div>
+      </div>
+    </aside>
+
+    <main class="main-content" id="overview">
+      <header class="topbar">
+        <div class="breadcrumb">WORKSPACE <span>/</span> PLAYER INTELLIGENCE</div>
+        <div class="topbar-right">
+          <span class="live-indicator"><i></i> LOCAL DEMO</span>
+          <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle dark theme" aria-pressed="false"><span id="theme-icon">◐</span> <span id="theme-label">Dark</span></button>
+          <div class="avatar">AI</div>
+        </div>
+      </header>
+
+      <section class="welcome-section" data-reveal>
+        <div class="welcome-copy-block">
+          <p class="eyebrow"><span class="eyebrow-line"></span> FOOTBALL INTELLIGENCE PLATFORM</p>
+          <h1>Player Potential <span>Analysis</span></h1>
+          <p class="welcome-copy">Evaluate player statistics and estimate their future potential using a machine learning model — type the numbers, upload a scout report, or batch-predict from CSV.</p>
+          <div class="hero-actions">
+            <a class="button-primary hero-cta" href="#predictor">Start predicting <b>→</b></a>
+            <a class="button-ghost hero-cta" href="#csv-upload">Batch CSV template</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="overview-grid" aria-label="Platform overview">
+        <article class="overview-card tilt" data-reveal><div class="overview-icon green-icon">◎</div><div class="overview-text"><span>INPUT FEATURES</span><strong data-count="14">14</strong><small>Player attributes used by the model</small></div><div class="card-index">01</div></article>
+        <article class="overview-card tilt" data-reveal><div class="overview-icon blue-icon">▤</div><div class="overview-text"><span>PREDICTION TYPES</span><strong data-count="3">3</strong><small>Outperforming · Average · Underperforming</small></div><div class="card-index">02</div></article>
+        <article class="overview-card tilt" data-reveal><div class="overview-icon gold-icon">⌘</div><div class="overview-text"><span>MODEL PIPELINE</span><strong>GB</strong><small>Gradient Boosting · 93.59% accuracy</small></div><div class="card-index">03</div></article>
+      </section>
+
+      <section class="workspace-grid" id="predictor">
+        <div class="panel prediction-panel" data-reveal>
+          <div class="panel-heading">
+            <div><p class="panel-kicker">PLAYER EVALUATION</p><h2>Player information</h2><p class="panel-subtitle">Enter the player's details to generate a potential rating.</p></div>
+            <span class="step-pill"><b>01</b> INPUT</span>
+          </div>
+
+          <div class="sample-panel">
+            <div class="sample-icon">✦</div>
+            <div class="sample-copy"><label for="sample-profile">Explore with a sample profile</label><p>Use a sample record to quickly test the prediction workflow.</p></div>
+            <div class="sample-controls">
+              <select id="sample-profile" aria-label="Choose a sample player profile">
+                <option value="" selected disabled>Choose profile</option>
+                <option value="outperforming">Outperforming example</option>
+                <option value="average">Average example</option>
+                <option value="underperforming">Underperforming example</option>
+              </select>
+              <button type="button" class="button-secondary" id="load-sample-button">Load sample <span>↗</span></button>
+            </div>
+            <p class="sample-status" id="sample-status" role="status" aria-live="polite"></p>
+          </div>
+
+          <div class="sample-panel upload-panel" id="report-upload">
+            <div class="sample-icon">⬆</div>
+            <div class="sample-copy"><label for="report-file">Upload a player report (PDF)</label><p>Stakeholders can upload a scout report instead of typing all 14 fields. Extraction pre-fills the form — verify highlighted fields, then predict.</p></div>
+            <div class="sample-controls upload-controls">
+              <input type="file" id="report-file" accept="application/pdf,.pdf" aria-label="Choose a PDF player report" />
+              <button type="button" class="button-secondary" id="extract-button">Extract &amp; fill form <span>↗</span></button>
+              <button type="button" class="button-secondary" id="predict-pdf-button">Predict directly from PDF <span>→</span></button>
+            </div>
+            <p class="sample-status" id="upload-status" role="status" aria-live="polite"></p>
+            <div class="extracted-grid" id="extracted-grid" hidden></div>
+          </div>
+
+          <div class="sample-panel upload-panel csv-panel" id="csv-upload">
+            <div class="sample-icon">▦</div>
+            <div class="sample-copy"><label for="csv-file">Batch predict from CSV (recommended)</label><p>Exact 14-column template — no extraction loss, whole squads in one upload. Download, fill one row per player, upload.</p></div>
+            <div class="sample-controls upload-controls">
+              <a class="button-secondary csv-download" id="csv-download" href="http://127.0.0.1:8000/template-csv" download="player_template.csv">Download template <span>↓</span></a>
+              <input type="file" id="csv-file" accept=".csv,text/csv" aria-label="Choose a CSV file built on the template" />
+              <button type="button" class="button-secondary" id="csv-button">Predict from CSV <span>→</span></button>
+            </div>
+            <p class="sample-status" id="csv-status" role="status" aria-live="polite"></p>
+            <div class="csv-results" id="csv-results" hidden></div>
+          </div>
+
+          <form id="prediction-form" novalidate>
+            <div class="form-section-title"><span class="section-number">A</span><div><h3>Physical &amp; experience</h3><p>Basic profile and playing experience</p></div></div>
+            <div class="form-grid">
+              <div class="field"><label for="height_in_cm">Height <small>CM</small></label><input id="height_in_cm" name="height_in_cm" type="number" min="100" max="250" step="1" placeholder="e.g. 184" required /></div>
+              <div class="field"><label for="international_caps">International caps <small>APPEARANCES</small></label><input id="international_caps" name="international_caps" type="number" min="0" step="1" placeholder="e.g. 4" required /></div>
+              <div class="field"><label for="position">Primary position</label><select id="position" name="position" required><option value="" selected disabled>Select position</option><option value="Attack">Attack</option><option value="Defender">Defender</option><option value="Goalkeeper">Goalkeeper</option><option value="Midfield">Midfield</option></select></div>
+              <div class="field"><label for="sub_position">Sub-position</label><select id="sub_position" name="sub_position" required disabled><option value="" selected>Select a position first</option></select></div>
+              <div class="field"><label for="foot">Preferred foot</label><select id="foot" name="foot" required><option value="" selected disabled>Select preferred foot</option><option value="right">Right</option><option value="left">Left</option><option value="both">Both</option></select></div>
+              <div class="field"><label for="competition_code">Competition</label><select id="competition_code" name="competition_code" required><option value="" selected disabled>Select competition</option><option value="a-league-men">A-League Men</option><option value="allsvenskan">Allsvenskan</option><option value="bundesliga">Bundesliga</option><option value="campeonato-brasileiro-serie-a">Campeonato Brasileiro Série A</option><option value="chance-liga">Chance Liga</option><option value="eliteserien">Eliteserien</option><option value="eredivisie">Eredivisie</option><option value="j1-league">J1 League</option><option value="jupiler-pro-league">Jupiler Pro League</option><option value="k-league-1">K League 1</option><option value="laliga">LaLiga</option><option value="liga-mx-clausura">Liga MX Clausura</option><option value="liga-portugal">Liga Portugal</option><option value="ligue-1">Ligue 1</option><option value="major-league-soccer">Major League Soccer</option><option value="pko-bp-ekstraklasa">PKO BP Ekstraklasa</option><option value="premier-league">Premier League</option><option value="premier-liga">Premier Liga</option><option value="saudi-pro-league">Saudi Pro League</option><option value="scottish-premiership">Scottish Premiership</option><option value="serie-a">Serie A</option><option value="super-league">Super League</option><option value="super-league-1">Super League 1</option><option value="super-lig">Süper Lig</option><option value="super-liga-srbije">Super Liga Srbije</option><option value="superliga">Superliga</option><option value="supersport-hnl">Supersport HNL</option><option value="torneo-apertura">Torneo Apertura</option></select></div>
+              <div class="field"><label for="confederation">Confederation</label><select id="confederation" name="confederation" required><option value="" selected disabled>Select confederation</option><option value="amerika">Americas</option><option value="asien">Asia</option><option value="europa">Europe</option></select></div>
+            </div>
+
+            <div class="form-section-title performance-title"><span class="section-number">B</span><div><h3>Performance statistics</h3><p>Career-level statistics supplied to the model</p></div></div>
+            <div class="form-grid">
+              <div class="field"><label for="market_value_in_eur">Market value <small>EUR (€)</small></label><input id="market_value_in_eur" name="market_value_in_eur" type="number" min="0" step="1" placeholder="e.g. 1000000" required /></div>
+              <div class="field"><label for="matches_played">Matches played</label><input id="matches_played" name="matches_played" type="number" min="0" step="1" placeholder="e.g. 136" required /></div>
+              <div class="field"><label for="total_minutes">Total minutes</label><input id="total_minutes" name="total_minutes" type="number" min="0" step="any" placeholder="e.g. 8808" required /></div>
+              <div class="field"><label for="total_goals">Total goals</label><input id="total_goals" name="total_goals" type="number" min="0" step="1" placeholder="e.g. 48" required /></div>
+              <div class="field"><label for="total_assists">Total assists</label><input id="total_assists" name="total_assists" type="number" min="0" step="1" placeholder="e.g. 25" required /></div>
+              <div class="field"><label for="yellow_cards">Yellow cards</label><input id="yellow_cards" name="yellow_cards" type="number" min="0" step="1" placeholder="e.g. 19" required /></div>
+              <div class="field"><label for="red_cards">Red cards</label><input id="red_cards" name="red_cards" type="number" min="0" step="1" placeholder="e.g. 0" required /></div>
+            </div>
+            <p class="validation-message" id="validation-message" role="alert" aria-live="polite"></p>
+            <div class="form-actions"><button type="reset" class="reset-button" id="reset-button">Reset fields</button><button type="submit" class="button-primary" id="predict-button"><span id="predict-button-label">Generate player prediction</span><b>→</b></button></div>
+          </form>
+        </div>
+
+        <aside class="insight-column">
+          <section class="panel snapshot-panel" data-reveal>
+            <div class="panel-heading compact"><div><p class="panel-kicker">LIVE INPUT SUMMARY</p><h2>Player snapshot</h2></div><span class="live-tag"><i></i> LIVE</span></div>
+            <div class="snapshot-position" id="snapshot-position">Position not selected</div>
+            <div class="snapshot-grid">
+              <div class="snapshot-item"><span>Height</span><strong id="snapshot-height">—</strong><small>cm</small></div>
+              <div class="snapshot-item"><span>Market value</span><strong id="snapshot-value">—</strong><small>EUR</small></div>
+              <div class="snapshot-item"><span>Matches</span><strong id="snapshot-matches">—</strong><small>played</small></div>
+              <div class="snapshot-item"><span>Goals</span><strong id="snapshot-goals">—</strong><small>total</small></div>
+            </div>
+            <div class="snapshot-footnote">This panel reflects the values entered in the form. It is not an additional model score.</div>
+          </section>
+
+          <section class="panel result-card tilt" id="result-card" aria-labelledby="result-title" aria-live="polite">
+            <div class="panel-heading compact"><div><p class="panel-kicker">MODEL OUTPUT</p><h2 id="result-title">Prediction result</h2></div><span class="result-badge" id="result-badge">Awaiting input</span></div>
+            <div class="result-visual"><div class="result-orbit"><span>AI</span></div><div><p class="result-overline">FUTURE POTENTIAL RATING</p><p class="result-rating" id="result-rating">Not evaluated</p></div></div>
+            <p class="result-description" id="result-description">Complete the player information and generate a prediction to view the model's estimate.</p>
+            <div class="rating-scale"><div><span class="scale-dot under"></span>Underperforming</div><div><span class="scale-dot average"></span>Average</div><div><span class="scale-dot over"></span>Outperforming</div></div>
+            <div class="disclaimer"><b>Note</b><span>This is a model-generated estimate, not a guarantee of future performance.</span></div>
+          </section>
+
+          <section class="panel method-panel" data-reveal><p class="panel-kicker">HOW IT WORKS</p><h3>From statistics to insight</h3><div class="method-step"><span>01</span><div><b>Form, PDF report or CSV batch</b><small>Three stakeholder input paths</small></div></div><div class="method-step"><span>02</span><div><b>Preprocessing pipeline</b><small>Impute, scale &amp; one-hot encode</small></div></div><div class="method-step"><span>03</span><div><b>Gradient Boosting</b><small>Predicts one of three rating classes</small></div></div></section>
+        </aside>
+      </section>
+
+      <footer class="page-footer"><span>SCOUTIQ <b>·</b> FOOTBALL PLAYER POTENTIAL PREDICTION</span><span>ACADEMIC MACHINE LEARNING PROJECT</span></footer>
+    </main>
+  </div>
+</body>
+</html>

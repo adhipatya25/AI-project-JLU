@@ -1,0 +1,4 @@
+# ScoutIQ player template — one row per player, keep this header exactly as-is.
+# Fill every cell; numbers only in numeric columns.
+height_in_cm,international_caps,market_value_in_eur,matches_played,total_minutes,total_goals,total_assists,yellow_cards,red_cards,position,sub_position,foot,competition_code,confederation
+187,6,500000,197,15223,7,4,38,2,Defender,Centre-Back,right,liga-portugal,europa
